@@ -19,7 +19,7 @@ type UserGetHandler struct {
 }
 
 const (
-	qFetchUserDetails = "select firstname, lastname, coin, alias, piclocation, inumber, points from ipluser where inumber=$1"
+	qFetchUserDetails = "select firstname, lastname, alias, inumber ipluser where inumber=$1"
 )
 
 var (
@@ -34,23 +34,19 @@ func (p UserGetHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 
-	inumber, err := util.GetValueFromContext(r, "inumber")
-	errors.ErrWriterPanic(w, http.StatusForbidden, err, errors.ErrParseContext, "UserGetHandler: could not get username from token")
-
 	pathVar := mux.Vars(r)
-	if pathVar["inumber"] != inumber {
-		errors.ErrWriterPanic(w, http.StatusForbidden, errors.ErrTokenInfoMismatch, errors.ErrTokenInfoMismatch, fmt.Sprintf("UserPutHandler: token info and path var mismatch %s-%s", pathVar["inumber"], inumber))
+	if _,ok:=pathVar["inumber"];!ok {
+		//fetch all users here
 	}
 
-	var pic sql.NullString
-	info := models.ProfileViewModel{}
+	//fetch single user here
+	info := models.UserModel{}
 
-	if err := db.DB.QueryRow(qFetchUserDetails, inumber).Scan(&info.Firstname, &info.Lastname, &info.Coin, &info.Alias, &pic, &info.INumber, &info.Points); err == sql.ErrNoRows {
+	if err := db.DB.QueryRow(qFetchUserDetails, inumber).Scan(&info.Firstname, &info.Lastname, &info.Alias, &info.INumber); err == sql.ErrNoRows {
 		errors.ErrWriterPanic(w, http.StatusForbidden, err, errUserNotFound, "UserGetHandler: user not found in db")
 	}
 	errors.ErrWriterPanic(w, http.StatusInternalServerError, err, errors.ErrDBIssue, "UserGetHandler: could not query db")
 
-	info.PicLocation = pic.String
 	log.Println("UserGetHandler:", info)
 	util.StructWriter(w, &info)
 }

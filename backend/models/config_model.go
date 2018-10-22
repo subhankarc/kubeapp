@@ -2,8 +2,8 @@ package models
 
 type Config struct {
 	DB   DBConfig   `json:"db"`
-	JWT  JWTConfig  `json:"jwt"`
-	Hash HashConfig `json:"hash"`
+	JWT  JWTConfig  `json:"jwt,omitempty"`
+	Hash HashConfig `json:"hash,omitempty"`
 }
 
 type DBConfig struct {
