@@ -1,9 +1,8 @@
 package models
 
 type Config struct {
-	DB   DBConfig   `json:"db"`
-	JWT  JWTConfig  `json:"jwt,omitempty"`
-	Hash HashConfig `json:"hash,omitempty"`
+	DB      DBConfig `json:"db"`
+	AppPort string   `json:"app_port"`
 }
 
 type DBConfig struct {
@@ -12,12 +11,4 @@ type DBConfig struct {
 	Host       string `json:"host"`
 	Port       string `json:"port"`
 	DBName     string `json:"dbname"`
-}
-
-type JWTConfig struct {
-	Secret string `json:"secret"`
-}
-
-type HashConfig struct {
-	Secret string `json:"secret"`
 }

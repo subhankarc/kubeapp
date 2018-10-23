@@ -5,9 +5,10 @@ import (
 	"net/http"
 
 	"github.com/smjn/ipl18/backend"
+	"github.com/smjn/ipl18/backend/config"
 )
 
 func main() {
-	log.Println("Starting server on port 3000...")
-	log.Fatal(http.ListenAndServe("0.0.0.0:3000", backend.SetupAndGetRouter()))
+	log.Println("Starting server on port", config.GetConfig().AppPort)
+	log.Fatal(http.ListenAndServe("0.0.0.0:"+config.GetConfig().AppPort, backend.SetupAndGetRouter()))
 }

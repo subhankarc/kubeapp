@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/smjn/ipl18/backend/models"
 )
@@ -18,25 +19,16 @@ var GetDBConfig = func() models.DBConfig {
 	return serverConfig.DB
 }
 
-var GetHashConfig = func() models.HashConfig {
-	return serverConfig.Hash
-}
-
-var GetJwtConfig = func() models.JWTConfig {
-	return serverConfig.JWT
-}
-
 func init() {
-	log.Println("Parsing config...")
-	f, err := os.Open("./config.json")
-	if err != nil {
-		log.Println("error opening config file", err.Error())
+	log.Println("Parsing config from env...")
+	if os.Getenv("app_config") != "" {
+		if err := json.NewDecoder(strings.NewReader(os.Getenv("app_config"))).Decode(&serverConfig); err != nil {
+			log.Println("error parsing config", err.Error())
+			os.Exit(1)
+		}
+	} else {
+		log.Println("Config: app_config not found in env, exiting")
 		os.Exit(1)
 	}
-
-	err = json.NewDecoder(f).Decode(&serverConfig)
-	if err != nil {
-		log.Println("error parsing config file", err.Error())
-		os.Exit(1)
-	}
+	log.Println(serverConfig)
 }
