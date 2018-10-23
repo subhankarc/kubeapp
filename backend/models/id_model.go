@@ -1,5 +1,5 @@
 package models
 
 type GeneralId struct {
-	Id int `json:"id"`
+	Id string `json:"id"`
 }

@@ -1,25 +1,21 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"regexp"
-	"encoding/json"
 
 	"github.com/gorilla/mux"
-
 	"github.com/smjn/ipl18/backend/db"
 	"github.com/smjn/ipl18/backend/errors"
+	"github.com/smjn/ipl18/backend/models"
 	"github.com/smjn/ipl18/backend/util"
 )
 
 type UserPutHandler struct {
 }
-
-const (
-	maxMemory = 1024 * 1024 * 2
-)
 
 var (
 	errAliasInvalid = fmt.Errorf("alias cannot be more than 10 chars and should be alphanumeric")
@@ -36,50 +32,51 @@ func (p UserPutHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	pathVar := mux.Vars(r)
-	if _,ok:=pathVar["inumber"]; !ok{
-	    errors.ErrWriterPanic(w, http.StatusBadRequest, http.StatusBadRequest, http.StatusBadRequest, "UserPutHandler: error inumber not provided")
+	if _, ok := pathVar["inumber"]; !ok {
+		errors.ErrWriterPanic(w, http.StatusBadRequest, errors.ErrUserNotFound, errors.ErrUserNotFound, "UserPutHandler: error inumber not provided")
 	}
-	err = p.parseAndUpdate(r, pathVar["inumber"])
-	errors.ErrWriterPanic(w, http.StatusBadRequest, err, err, "UserPutHandler: error parsing form data")
+	err := p.parseAndUpdate(r, pathVar["inumber"])
+	errors.ErrWriterPanic(w, http.StatusBadRequest, err, err, "UserPutHandler: error parsing req data")
 	util.OkWriter(w)
 }
 
 func (p UserPutHandler) parseAndUpdate(r *http.Request, inumber string) error {
 	log.Println("UserPutHandler: parsing request")
-	query := "update ipluser"
-	values := []interface{}{inumber}
-	i := 2
+	query := "update myuser set"
+	values := []interface{}{}
 
 	defer r.Body.Close()
-	info:=&models.UserModel{}
-	if err:=json.NewDecoder(r.Body).Decode(&info);err!=nil{
-		log.Println("ProfileDAO: ",err)
+	info := &models.UserModel{}
+	if err := json.NewDecoder(r.Body).Decode(&info); err != nil {
+		log.Println("UserPutHandler: ", err)
 		return err
 	}
 
-	ind:=1
-	if(info.FirstName!=""){
-		values=values.append(info.Firstname)
-		query+=fmt.Sprintf(" set firstname=$%d,",ind)
+	ind := 1
+	if info.Firstname != "" {
+		values = append(values, info.Firstname)
+		query += fmt.Sprintf(" firstname=$%d,", ind)
 		ind++
 	}
-	if(info.Lastname!=""){
-		values=values.append(info.Lastname)
-		query+=fmt.Sprintf(" set lastname=$%d,",ind)
+	if info.Lastname != "" {
+		values = append(values, info.Lastname)
+		query += fmt.Sprintf(" lastname=$%d,", ind)
 		ind++
 	}
-	if(info.Alias!=""){
-		values=values.append(info.Alias)
-		query+=fmt.Sprintf(" set alias=$%d,",ind)
+	if info.Alias != "" {
+		values = append(values, info.Alias)
+		query += fmt.Sprintf(" alias=$%d,", ind)
 		ind++
 	}
-	if query[len(query)-1]==","{
-		query=query[0:len(query)-1]
-	}else{
+
+	if ind > 1 {
+		query = query[0 : len(query)-1]
+	} else {
 		//no updates
 		return nil
 	}
-	
+
+	values = append(values, inumber)
 	query += fmt.Sprintf(" where inumber=$%d", ind)
 
 	log.Println(query, values)

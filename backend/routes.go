@@ -5,15 +5,14 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/smjn/ipl18/backend/dao"
-	"github.com/smjn/ipl18/backend/handler"
-
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/smjn/ipl18/backend/dao"
+	"github.com/smjn/ipl18/backend/handler"
 )
 
 var (
-	uDao      dao.UserDAO
+	uDao dao.UserDAO
 )
 
 var SetupAndGetRouter = func() http.Handler {
@@ -34,11 +33,11 @@ func setupRoutes(r *mux.Router) {
 }
 
 func setupApi(r *mux.Router) {
-	r.Handle("/users/",handler.UserGetHandler{}).Methods("GET")
-	r.Handle("/users/{inumber}", handler.UserGetHandler{}).Methods("GET")
+	r.Handle("/users", handler.UserGetHandler{uDao}).Methods("GET")
+	r.Handle("/users/{inumber}", handler.UserGetHandler{uDao}).Methods("GET")
 	r.Handle("/users/{inumber}", handler.UserPutHandler{}).Methods("PUT")
-	r.Handle("/users/",handler.UserPostHandler{}).Methods("POST")
-	r.Handle("/users/{inumber}",handler.UserDeleteHandler{}).Methods("DELETE")
+	r.Handle("/users", handler.UserPostHandler{uDao}).Methods("POST")
+	r.Handle("/users/{inumber}", handler.UserDeleteHandler{uDao}).Methods("DELETE")
 }
 
 func setupLogging(r http.Handler) http.Handler {

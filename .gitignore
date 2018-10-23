@@ -18,3 +18,4 @@ bin/
 ipl18
 static/assets/img/users/*
 !static/assets/img/users/default.png
+config.json
