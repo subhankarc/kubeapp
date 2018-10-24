@@ -38,8 +38,8 @@ func init() {
 		log.Println("error parsing config")
 		os.Exit(1)
 	}
-	if os.Getenv("POSTGRES_PORT_5432_TCP_ADDR") != "" {
-		serverConfig.DB.Host = os.Getenv("POSTGRES_PORT_5432_TCP_ADDR")
+	if os.Getenv("POSTGRES_SERVICE_HOST") != "" {
+		serverConfig.DB.Host = os.Getenv("POSTGRES_SERVICE_HOST")
 	} else {
 		log.Println("error parsing config")
 		os.Exit(1)
