@@ -45,6 +45,7 @@ app.controller('appController', ['$http', '$mdDialog', function ($http, $mdDialo
         $mdDialog.show({
             templateUrl: '/static/addUser.dlg.html',
             controller: dialogController,
+            locals: {inumber: undefined},
             clickOutsideToClose: true
         })
 
