@@ -7,8 +7,8 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/smjn/ipl18/backend/dao"
-	"github.com/smjn/ipl18/backend/handler"
+	"github.com/smjn/kubeapp/backend/dao"
+	"github.com/smjn/kubeapp/backend/handler"
 )
 
 var (
@@ -25,11 +25,19 @@ var SetupAndGetRouter = func() http.Handler {
 }
 
 func setupRoutes(r *mux.Router) {
+	setupStatic(r)
+
 	//handle ping
 	r.PathPrefix("/pub/ping").Methods("GET").Handler(handler.PingHandler)
 
 	apiRouter := r.PathPrefix("/api").Subrouter()
 	setupApi(apiRouter)
+}
+
+func setupStatic(r *mux.Router) {
+	//for pages
+	r.Handle("/", http.FileServer(http.Dir("./static/")))
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 }
 
 func setupApi(r *mux.Router) {

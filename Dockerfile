@@ -1,10 +1,11 @@
-FROM golang:alpine AS build-env
-RUN mkdir -p /go/src/github.com/smjn/ipl18
-WORKDIR /go/src/github.com/smjn/ipl18
-ADD . /go/src/github.com/smjn/ipl18
-RUN go install github.com/smjn/ipl18
+FROM golang:latest AS build-env
+RUN mkdir -p /go/src/github.com/smjn
+RUN git clone -b simple https://github.com/smjn/kubeapp
+RUN mv kubeapp /go/src/github.com/smjn/
+WORKDIR /go/src/github.com/smjn/kubeapp
+RUN go install github.com/smjn/kubeapp
 
 FROM alpine
 WORKDIR /app
-COPY --from=build-env /go/bin/ipl18 /app
-CMD ["/app/ipl18"]
+COPY --from=build-env /go/bin/kubeapp /app
+CMD ["/app/kubeapp"]

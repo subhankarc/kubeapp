@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 
-	"github.com/smjn/ipl18/backend/models"
-	"github.com/smjn/ipl18/backend/util"
+	"github.com/smjn/kubeapp/backend/models"
+	"github.com/smjn/kubeapp/backend/util"
 )
 
 var PingHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

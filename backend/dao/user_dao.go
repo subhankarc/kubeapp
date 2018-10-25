@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/smjn/ipl18/backend/db"
-	"github.com/smjn/ipl18/backend/errors"
-	"github.com/smjn/ipl18/backend/models"
+	"github.com/smjn/kubeapp/backend/db"
+	"github.com/smjn/kubeapp/backend/errors"
+	"github.com/smjn/kubeapp/backend/models"
 )
 
 type UserDAO struct{}

@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/smjn/ipl18/backend/errors"
-	"github.com/smjn/ipl18/backend/models"
-	"github.com/smjn/ipl18/backend/util"
+	"github.com/smjn/kubeapp/backend/errors"
+	"github.com/smjn/kubeapp/backend/models"
+	"github.com/smjn/kubeapp/backend/util"
 )
 
 type UserCreator interface {

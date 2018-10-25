@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/smjn/ipl18/backend"
+	"github.com/smjn/kubeapp/backend"
 )
 
 func main() {

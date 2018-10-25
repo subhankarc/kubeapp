@@ -7,7 +7,7 @@ import (
 	"os"
 
 	_ "github.com/lib/pq"
-	"github.com/smjn/ipl18/backend/config"
+	"github.com/smjn/kubeapp/backend/config"
 )
 
 var DB *sql.DB

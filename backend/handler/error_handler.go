@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/smjn/ipl18/backend/errors"
+	"github.com/smjn/kubeapp/backend/errors"
 )
 
 var NotImplementedErr = fmt.Errorf("Not Implemented")
