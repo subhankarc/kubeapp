@@ -27,37 +27,42 @@
 <body ng-app="simple">
     <div ng-controller="appController as app">
         <div ng-init="app.init()" ng-cloak layout="column" layout-align="center center" style="width: 100%">
-            <div layout="column" layout-align="center center" layout-padding>
-                <h1>DEMO KUBERNETES RAMPUP APP</h1>
-                <md-button class="md-raised" ng-click="app.addUser()" style="width: 40%">Add User</md-button>
+            <!-- <div layout="column" layout-align="center center" layout-padding> -->
+            <h1>DEMO KUBERNETES RAMPUP APP</h1>
+            <div layout="row" layout-align="start start" layout-padding style="width: 75%; padding-left: 0">
+                <md-button class="md-raised" ng-click="app.addUser()" style="margin-left: 0; margin-bottom: 0; background-color: #d0d7e2"">
+                    <md-icon md-font-set="material-icons">add</md-icon>
+                    Add User
+                </md-button>
             </div>
+            <!-- </div> -->
             <md-card style="width: 75%;">
-                    <table>
-                        <thead>
-                            <th>I-Number</th>
-                            <th>Name</th>
-                            <th>Alias</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat='user in app.users' class="md-padding" style="background-color: #FAFAFA">
-                                <td> {{user.inumber}} </td>
-                                <td> {{user.firstname + ' ' + user.lastname}} </td>
-                                <td> {{user.alias}} </td>
-                                <td> 
-                                    <md-button class="md-icon-button" aria-label="Edit" ng-click="app.editUser(user.inumber)">
-                                        <md-icon md-font-set="material-icons">edit</md-icon>
-                                    </md-button>
-                                </td>
-                                <td>
-                                    <md-button class="md-icon-button md-warn" aria-label="Delete" ng-click="app.deleteUser(user.inumber)">
-                                        <md-icon md-font-set="material-icons">delete</md-icon>
-                                    </md-button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <table>
+                    <thead>
+                        <th>I-Number</th>
+                        <th>Name</th>
+                        <th>Alias</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='user in app.users' class="md-padding" style="background-color: #FAFAFA">
+                            <td> {{user.inumber}} </td>
+                            <td> {{user.firstname + ' ' + user.lastname}} </td>
+                            <td> {{user.alias}} </td>
+                            <td>
+                                <md-button class="md-icon-button" aria-label="Edit" ng-click="app.editUser(user.inumber)">
+                                    <md-icon md-font-set="material-icons">edit</md-icon>
+                                </md-button>
+                            </td>
+                            <td>
+                                <md-button class="md-icon-button md-warn" aria-label="Delete" ng-click="app.deleteUser(user.inumber)">
+                                    <md-icon md-font-set="material-icons">delete</md-icon>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </md-card>
         </div>
     </div>
