@@ -7,7 +7,8 @@ WORKDIR /go/src/github.com/smjn/kubeapp
 RUN go install github.com/smjn/kubeapp
 
 FROM alpine
-RUN mkdir -p /app
+RUN mkdir -p /app/static
 WORKDIR /app
 COPY --from=build-env /go/bin/kubeapp .
+COPY --from=build-env /go/src/github.com/smjn/kubeapp/static static/
 CMD ["/app/kubeapp"]
