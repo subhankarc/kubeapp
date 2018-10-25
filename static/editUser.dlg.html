@@ -1,0 +1,37 @@
+<md-dialog aria-label="Mango (Fruit)">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Add User</h2>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+      
+        <md-dialog-content>
+            <div class="md-dialog-content"  layout="column" layout-align="center center">
+                <md-input-container>
+                    <label>First Name</label>
+                    <input ng-model="firstname">
+                </md-input-container>
+                <md-input-container>
+                    <label>Last Name</label>
+                    <input ng-model="lastname">
+                </md-input-container>
+                <md-input-container>
+                    <label>Alias</label>
+                    <input ng-model="alias">
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button ng-click="edit()">
+                Edit
+            </md-button>
+            </md-dialog-actions>
+
+    </form>
+</md-dialog>

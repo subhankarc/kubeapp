@@ -1,0 +1,33 @@
+/* Table format */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table thead {
+    font-weight: bold;
+}
+
+table th {
+    background-color: #6CCECB;
+    border: 3px solid #ffffff;
+    color: white;
+}
+
+table tr {
+    text-align: center;
+}
+
+/* table tr:hover td {
+    background-color: #6CCECB;
+    transition: all 0.1s ease-in;
+    color: white;
+} */
+
+table td {
+    padding: 5px;
+    border: 3px solid #ffffff;
+}
+
+/* Table end */
