@@ -1,0 +1,8 @@
+---
+applications:
+- name: demo-app
+  memory: 512M
+  instances: 2
+  services:
+  - ali-pg
+

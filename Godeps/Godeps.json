@@ -1,11 +1,13 @@
 {
 	"ImportPath": "github.com/smjn/kubeapp",
-	"GoVersion": "go1.11",
-	"GodepVersion": "v76",
-	"Packages": [
-		"./..."
-	],
+	"GoVersion": "go1.10",
+	"GodepVersion": "v80",
 	"Deps": [
+		{
+			"ImportPath": "github.com/cloudfoundry-community/go-cfenv",
+			"Comment": "v1.17.0-2-gdd6b21a",
+			"Rev": "dd6b21aad7ac4c201b643e4e5e5b1a97a6e638a1"
+		},
 		{
 			"ImportPath": "github.com/gorilla/handlers",
 			"Comment": "v1.3.0",
@@ -25,6 +27,11 @@
 			"ImportPath": "github.com/lib/pq/oid",
 			"Comment": "go1.0-cutoff-191-gb609790",
 			"Rev": "b609790bd85edf8e9ab7e0f8912750a786177bcf"
+		},
+		{
+			"ImportPath": "github.com/mitchellh/mapstructure",
+			"Comment": "v1.1.2",
+			"Rev": "3536a929edddb9a5b34bd6861dc4a9647cb459fe"
 		}
 	]
 }

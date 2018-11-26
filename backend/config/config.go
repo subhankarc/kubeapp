@@ -2,8 +2,7 @@ package config
 
 import (
 	"log"
-	"os"
-
+        "github.com/cloudfoundry-community/go-cfenv"
 	"github.com/smjn/kubeapp/backend/models"
 )
 
@@ -20,30 +19,47 @@ var GetDBConfig = func() models.DBConfig {
 func init() {
 	log.Println("Parsing config from env...")
 
-	if os.Getenv("POSTGRES_DB") != "" {
-		serverConfig.DB.DBName = os.Getenv("POSTGRES_DB")
+        appEnv, _ := cfenv.Current()
+        pgService, _ := appEnv.Services.WithName("ali-pg")
+	log.Println("PostgreSQL service: ", pgService)
+
+	dbname, _ := pgService.CredentialString("dbname")
+	if dbname != "" {
+		serverConfig.DB.DBName = dbname
 	} else {
 		log.Println("error parsing config POSTGRES_DB")
 		// os.Exit(1)
 	}
-	if os.Getenv("POSTGRES_USER") != "" {
-		serverConfig.DB.DBUser = os.Getenv("POSTGRES_USER")
+
+	username, _ := pgService.CredentialString("username")
+	if username != "" {
+		serverConfig.DB.DBUser = username
 	} else {
 		log.Println("error parsing config POSTGRES_USER")
 		// os.Exit(1)
 	}
-	if os.Getenv("POSTGRES_PASSWORD") != "" {
-		serverConfig.DB.DBPassword = os.Getenv("POSTGRES_PASSWORD")
+
+	password, _ := pgService.CredentialString("password")
+	if password != "" {
+		serverConfig.DB.DBPassword = password
 	} else {
 		log.Println("error parsing config POSTGRES_PASSWORD")
 		// os.Exit(1)
 	}
-	if os.Getenv("POSTGRES_SERVICE_HOST") != "" {
-		serverConfig.DB.Host = os.Getenv("POSTGRES_SERVICE_HOST")
+
+	hostname, _ := pgService.CredentialString("hostname")
+	if hostname != "" {
+		serverConfig.DB.Host = hostname
 	} else {
 		log.Println("error parsing config POSTGRES_SERVICE_HOST")
 		// os.Exit(1)
 	}
-	serverConfig.DB.Port = "5432"
+
+        port, _ := pgService.CredentialString("port")
+        if port != "" {
+                serverConfig.DB.Port = port
+        } else {
+	        serverConfig.DB.Port = "5432"
+        }
 	log.Println(serverConfig)
 }

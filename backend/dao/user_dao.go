@@ -14,6 +14,7 @@ import (
 type UserDAO struct{}
 
 const (
+	qCreateDB	= "CREATE TABLE IF NOT EXISTS myuser (firstname varchar(100), lastname varchar(100), alias varchar(100), inumber varchar(100));"
 	qSelectAllUsers = "select firstname,lastname,alias,inumber from myuser"
 	qSelectUserById = "select firstname,lastname,alias,inumber from myuser where inumber=$1"
 	qInsertUser     = "insert into myuser(firstname, lastname, alias, inumber) values($1, $2, $3, $4)"
@@ -43,6 +44,12 @@ func (u UserDAO) CreateUser(user models.UserModel) (*models.GeneralId, error) {
 }
 
 func (u UserDAO) GetUsers() (*models.UsersModel, error) {
+       _, err := db.DB.Query(qCreateDB)
+       if err != nil {
+               log.Println("UserDAO: createDb error creating DB", err)
+               return nil, &errors.DaoError{http.StatusInternalServerError, err, errors.ErrDBIssue}
+       }
+
 	rows, err := db.DB.Query(qSelectAllUsers)
 	if err != nil {
 		log.Println("UserDAO: GetUsers error getting users", err)
